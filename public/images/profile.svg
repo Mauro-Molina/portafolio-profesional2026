@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="960" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111111"/>
+      <stop offset="0.55" stop-color="#0a1a10"/>
+      <stop offset="1" stop-color="#050505"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(480 420) rotate(90) scale(340 300)">
+      <stop stop-color="#38d26b" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#38d26b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="1200" fill="url(#bg)"/>
+  <circle cx="480" cy="420" r="340" fill="url(#glow)"/>
+  <circle cx="480" cy="390" r="150" fill="#1a1a1a" stroke="#38d26b" stroke-opacity="0.35" stroke-width="3"/>
+  <circle cx="480" cy="360" r="70" fill="#2a2a2a"/>
+  <path d="M320 620c30-90 110-140 160-140s130 50 160 140c20 60 20 160 20 220H300c0-60 0-160 20-220z" fill="#2a2a2a"/>
+  <text x="480" y="980" text-anchor="middle" fill="#38d26b" font-family="Arial, sans-serif" font-size="42" font-weight="700" letter-spacing="8">MAURO MOLINA</text>
+  <text x="480" y="1035" text-anchor="middle" fill="#a1a1aa" font-family="Arial, sans-serif" font-size="22" letter-spacing="4">FULL STACK DEVELOPER</text>
+</svg>

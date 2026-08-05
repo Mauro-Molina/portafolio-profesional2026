@@ -1,0 +1,9 @@
+/* Design tokens mirror — kept for CMS / design-system sync */
+:root {
+  --mm-bg: #050505;
+  --mm-secondary: #111111;
+  --mm-card: #181818;
+  --mm-primary: #38d26b;
+  --mm-border: rgba(255, 255, 255, 0.08);
+  --mm-radius: 16px;
+}
