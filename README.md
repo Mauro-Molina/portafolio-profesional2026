@@ -1,19 +1,20 @@
-# Mauro Molina — Premium Portfolio
+# Mauro Molina — Premium Portfolio (Static)
 
-Production-ready personal portfolio built with Next.js 15, React 19, TypeScript, Tailwind CSS, Framer Motion, Lenis, and shadcn/ui patterns.
+Portfolio premium con Next.js 15, React 19, TypeScript, Tailwind CSS, Framer Motion y Lenis.
+
+Export estático listo para **GitLab Pages** con el dominio gratis de GitLab (`*.gitlab.io`). Las animaciones corren 100% en el cliente.
 
 ## Stack
 
-- Next.js 15 (App Router)
+- Next.js 15 (App Router) + `output: "export"`
 - React 19 + TypeScript
 - Tailwind CSS 4
-- Framer Motion
-- Lenis smooth scrolling
+- Framer Motion + Lenis
 - Lucide + React Icons
-- Resend-ready contact API
-- GitHub API integration
+- GitHub API en **build time**
+- Contacto estático (`mailto:` o Formspree/Getform)
 
-## Getting started
+## Desarrollo
 
 ```bash
 npm install
@@ -21,51 +22,105 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Abre [http://localhost:3000](http://localhost:3000).
 
-## Environment variables
-
-| Variable | Description |
-| --- | --- |
-| `GITHUB_USERNAME` | GitHub username for live repos/stats |
-| `GITHUB_TOKEN` | Optional token for higher API rate limits |
-| `RESEND_API_KEY` | Enables real contact email delivery |
-| `CONTACT_TO_EMAIL` | Inbox that receives form messages |
-| `CONTACT_FROM_EMAIL` | Verified Resend sender |
-
-Without `RESEND_API_KEY`, the contact endpoint logs submissions and still returns success (useful for local/demo).
-
-## Assets to replace
-
-- `public/images/profile.svg` → your portrait (`profile.jpg` / `profile.png` recommended)
-- `public/projects/*.svg` → real project screenshots
-- `public/cv/Mauro-Molina-CV.pdf` → your CV file
-- `public/og.svg` → Open Graph image
-- Update links/email in `src/data/site.ts`
-
-## Deploy on Vercel
-
-1. Push this repository to GitHub
-2. Import the project in Vercel
-3. Add environment variables
-4. Deploy
+## Build estático
 
 ```bash
 npm run build
-npm start
 ```
 
-## Architecture
+Genera la carpeta `out/` lista para hosting estático.
+
+Vista previa local:
+
+```bash
+npm run preview
+```
+
+## Variables de entorno
+
+| Variable | Descripción |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | URL pública final (SEO / sitemap). En GitLab CI se calcula sola. |
+| `NEXT_PUBLIC_BASE_PATH` | Subruta si GitLab sirve el sitio en `/nombre-del-repo`. En CI se calcula sola. |
+| `GITHUB_USERNAME` | Usuario de GitHub para repos/stats |
+| `GITHUB_TOKEN` | Token opcional (mejor rate limit en CI) |
+| `NEXT_PUBLIC_FORM_ENDPOINT` | Endpoint de Formspree/Getform (opcional) |
+
+Sin `NEXT_PUBLIC_FORM_ENDPOINT`, el formulario abre el cliente de correo (`mailto:`).
+
+## Publicar en GitLab Pages (dominio gratis)
+
+El sitio queda en una URL `*.gitlab.io`. No hace falta dominio propio ni DNS.
+
+### 1. Crea el proyecto en GitLab
+
+1. Entra en [gitlab.com](https://gitlab.com) e inicia sesión.
+2. **New project → Create blank project**.
+3. Nombre sugerido: `portafolio`.
+4. Visibility: **Public** (si es privado, el sitio no será visible para todo el mundo).
+5. **No** marques “Initialize repository with a README”.
+
+### 2. Sube este repositorio
+
+En la raíz del proyecto (ajusta la URL al proyecto que acabas de crear):
+
+```bash
+git remote add gitlab https://gitlab.com/TU_USUARIO/portafolio.git
+git add .
+git commit -m "Publish static portfolio on GitLab Pages"
+git push -u gitlab HEAD
+```
+
+La rama actual es `master`. GitLab la tomará como rama por defecto si es el primer push.
+
+### 3. Variables CI (opcional)
+
+En GitLab: **Settings → CI/CD → Variables**:
+
+| Variable | Obligatorio | Ejemplo |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | No | Token de GitHub con scope `public_repo` (sube el rate limit) |
+| `NEXT_PUBLIC_FORM_ENDPOINT` | No | `https://formspree.io/f/xxxx` |
+
+`GITHUB_USERNAME` ya vale `mauromolina` en el pipeline.
+
+### 4. Espera el pipeline
+
+1. Ve a **Build → Pipelines**.
+2. El job `pages` instala, construye el export estático y publica.
+3. Cuando esté verde, ve a **Deploy → Pages**.
+4. Abre la URL que GitLab muestra (algo como `https://TU_USUARIO.gitlab.io/portafolio/` o un dominio único `https://portafolio-TU_USUARIO-xxxx.gitlab.io`).
+
+### 5. URL clásica `usuario.gitlab.io/repo` (opcional)
+
+GitLab a veces activa **Use unique domain**. Si prefieres `https://TU_USUARIO.gitlab.io/portafolio/`:
+
+1. **Deploy → Pages**
+2. Desactiva **Use unique domain**
+3. Vuelve a lanzar el pipeline (**Build → Pipelines → Run pipeline**)
+
+El CI detecta solo si hace falta `basePath`.
+
+## Assets a reemplazar
+
+- `public/images/profile.svg` → tu foto
+- `public/projects/*.svg` → screenshots reales
+- `public/cv/Mauro-Molina-CV.pdf` → tu CV
+- `public/og.svg` → imagen Open Graph
+- Datos en `src/data/site.ts`
+
+## Arquitectura
 
 ```
 src/
-  app/           # App Router pages, SEO, API routes
+  app/           # App Router + SEO
   components/    # UI, layout, effects, providers
-  sections/      # Page sections
-  hooks/         # Magnetic, mouse, media, scroll hooks
-  lib/           # utils, github, seo, i18n
-  data/          # CMS-ready content modules
-  types/         # Shared TypeScript types
+  sections/      # Secciones de la página
+  hooks/         # Magnetic, mouse, media, scroll
+  lib/           # utils, github, seo, i18n, paths
+  data/          # Contenido CMS-ready
+  types/         # TypeScript types
+out/             # Salida estática tras `npm run build`
 ```
-
-Content is isolated in `src/data` so you can later swap in a CMS or i18n layer without rewriting UI.

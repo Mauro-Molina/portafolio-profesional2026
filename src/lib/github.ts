@@ -16,22 +16,37 @@ type GitHubApiRepo = {
   fork: boolean;
 };
 
+const fallbackStats = {
+  publicRepos: 0,
+  followers: 0,
+  following: 0,
+  username: GITHUB_USERNAME,
+};
+
+function githubHeaders(): HeadersInit {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "mauromolina-portfolio",
+  };
+
+  if (GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+  }
+
+  return headers;
+}
+
+/**
+ * Fetched at build time for static export.
+ * Data is baked into the HTML on each CI/local build.
+ */
 export async function getLatestRepos(limit = 6): Promise<GitHubRepo[]> {
   try {
-    const headers: HeadersInit = {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "mauromolina-portfolio",
-    };
-
-    if (GITHUB_TOKEN) {
-      headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
-    }
-
     const response = await fetch(
       `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=20`,
       {
-        headers,
-        next: { revalidate: 3600 },
+        headers: githubHeaders(),
+        cache: "force-cache",
       },
     );
 
@@ -62,30 +77,16 @@ export async function getLatestRepos(limit = 6): Promise<GitHubRepo[]> {
 
 export async function getContributionStats() {
   try {
-    const headers: HeadersInit = {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "mauromolina-portfolio",
-    };
-
-    if (GITHUB_TOKEN) {
-      headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
-    }
-
     const response = await fetch(
       `https://api.github.com/users/${GITHUB_USERNAME}`,
       {
-        headers,
-        next: { revalidate: 3600 },
+        headers: githubHeaders(),
+        cache: "force-cache",
       },
     );
 
     if (!response.ok) {
-      return {
-        publicRepos: 0,
-        followers: 0,
-        following: 0,
-        username: GITHUB_USERNAME,
-      };
+      return fallbackStats;
     }
 
     const data = (await response.json()) as {
@@ -102,11 +103,6 @@ export async function getContributionStats() {
       username: data.login,
     };
   } catch {
-    return {
-      publicRepos: 0,
-      followers: 0,
-      following: 0,
-      username: GITHUB_USERNAME,
-    };
+    return fallbackStats;
   }
 }

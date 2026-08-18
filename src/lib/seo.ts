@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/data/site";
 
+const siteUrl = siteConfig.url.replace(/\/$/, "");
+const ogImage = `${siteUrl}/og.svg`;
+
 export const defaultMetadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(`${siteUrl}/`),
   title: {
     default: `${siteConfig.name} — ${siteConfig.title}`,
     template: `%s · ${siteConfig.name}`,
@@ -23,13 +26,13 @@ export const defaultMetadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteConfig.url,
+    url: `${siteUrl}/`,
     title: `${siteConfig.name} — ${siteConfig.title}`,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
       {
-        url: "/og.svg",
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} Portfolio`,
@@ -40,7 +43,7 @@ export const defaultMetadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.title}`,
     description: siteConfig.description,
-    images: ["/og.svg"],
+    images: [ogImage],
   },
   robots: {
     index: true,
@@ -53,7 +56,7 @@ export const defaultMetadata: Metadata = {
     },
   },
   alternates: {
-    canonical: siteConfig.url,
+    canonical: `${siteUrl}/`,
   },
 };
 
@@ -63,7 +66,7 @@ export function personJsonLd() {
     "@type": "Person",
     name: siteConfig.fullName,
     jobTitle: siteConfig.title,
-    url: siteConfig.url,
+    url: `${siteUrl}/`,
     email: siteConfig.email,
     address: {
       "@type": "PostalAddress",

@@ -8,6 +8,7 @@ import { MdEmail } from "react-icons/md";
 import { heroBadges, siteConfig, socialLinks, typingRoles } from "@/data/site";
 import { TypingText } from "@/components/shared/typing-text";
 import { MagneticButton } from "@/components/shared/magnetic-button";
+import { withBasePath } from "@/lib/paths";
 
 export function HeroSection() {
   return (
@@ -149,7 +150,7 @@ export function HeroSection() {
           <div className="relative z-10 overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-2">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-secondary">
               <Image
-                src="/images/profile.svg"
+                src={withBasePath("/images/profile.svg")}
                 alt={`${siteConfig.fullName} portrait`}
                 fill
                 priority

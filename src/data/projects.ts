@@ -1,6 +1,7 @@
 import type { Project } from "@/types";
+import { withBasePath } from "@/lib/paths";
 
-export const projects: Project[] = [
+const projectList: Project[] = [
   {
     id: "voyz-usa",
     title: "Voyz USA",
@@ -116,3 +117,8 @@ export const projects: Project[] = [
     category: "Corporate",
   },
 ];
+
+export const projects: Project[] = projectList.map((project) => ({
+  ...project,
+  image: withBasePath(project.image),
+}));

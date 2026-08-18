@@ -1,0 +1,66 @@
+image: node:20-bookworm
+
+stages:
+  - deploy
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+
+variables:
+  NEXT_TELEMETRY_DISABLED: "1"
+  GITHUB_USERNAME: mauromolina
+
+pages:
+  stage: deploy
+  script:
+    # GitLab exposes the real Pages URL in CI_PAGES_URL:
+    # - Unique domain (default): https://project-namespace-xxxx.gitlab.io
+    # - Classic project Pages:   https://NAMESPACE.gitlab.io/PROJECT
+    # - User Pages:              https://NAMESPACE.gitlab.io
+    - |
+      if [ -z "${CI_PAGES_URL}" ]; then
+        if [ "$CI_PROJECT_NAME" = "${CI_PROJECT_ROOT_NAMESPACE}.gitlab.io" ]; then
+          export CI_PAGES_URL="https://${CI_PROJECT_ROOT_NAMESPACE}.gitlab.io"
+        else
+          export CI_PAGES_URL="https://${CI_PROJECT_ROOT_NAMESPACE}.gitlab.io/${CI_PROJECT_NAME}"
+        fi
+      fi
+      export NEXT_PUBLIC_SITE_URL="${CI_PAGES_URL%/}"
+      export NEXT_PUBLIC_BASE_PATH="$(node -p 'new URL(process.env.CI_PAGES_URL).pathname.replace(/\/$/, "")')"
+      echo "SITE_URL=${NEXT_PUBLIC_SITE_URL}"
+      echo "BASE_PATH=${NEXT_PUBLIC_BASE_PATH}"
+    - |
+      cat > public/robots.txt <<EOF
+      User-agent: *
+      Allow: /
+
+      Sitemap: ${NEXT_PUBLIC_SITE_URL}/sitemap.xml
+      EOF
+    - |
+      cat > public/sitemap.xml <<EOF
+      <?xml version="1.0" encoding="UTF-8"?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <url>
+          <loc>${NEXT_PUBLIC_SITE_URL}/</loc>
+          <changefreq>weekly</changefreq>
+          <priority>1.0</priority>
+        </url>
+      </urlset>
+      EOF
+    - npm ci
+    - npm run build
+    # GitLab Pages serves the `public` artifact folder.
+    - rm -rf public
+    - mv out public
+  artifacts:
+    paths:
+      - public
+  environment:
+    name: production
+    url: $CI_PAGES_URL
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

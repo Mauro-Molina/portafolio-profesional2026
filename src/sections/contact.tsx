@@ -11,6 +11,8 @@ import { siteConfig } from "@/data/site";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
+const formEndpoint = process.env.NEXT_PUBLIC_FORM_ENDPOINT;
+
 export function ContactSection() {
   const [state, setState] = useState<FormState>("idle");
   const [error, setError] = useState("");
@@ -20,28 +22,39 @@ export function ContactSection() {
     setState("loading");
     setError("");
 
-    const formData = new FormData(event.currentTarget);
-    const payload = {
-      name: String(formData.get("name") || ""),
-      email: String(formData.get("email") || ""),
-      message: String(formData.get("message") || ""),
-    };
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get("name") || "");
+    const email = String(formData.get("email") || "");
+    const message = String(formData.get("message") || "");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      if (formEndpoint) {
+        const response = await fetch(formEndpoint, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, message }),
+        });
 
-      const data = (await response.json()) as { error?: string };
+        if (!response.ok) {
+          throw new Error("Unable to send message. Please try again.");
+        }
 
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
+        setState("success");
+        form.reset();
+        return;
       }
 
+      const subject = encodeURIComponent(`Portfolio contact from ${name}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      );
+      window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`;
       setState("success");
-      event.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setState("error");
       setError(err instanceof Error ? err.message : "Failed to send message");
@@ -54,7 +67,11 @@ export function ContactSection() {
         <SectionHeading
           eyebrow="Contact"
           title="Let's build something premium"
-          description="Share a bit about your project. This form is ready for Resend — drop in your API key and go live."
+          description={
+            formEndpoint
+              ? "Share a bit about your project. I usually respond within 24–48 hours."
+              : "Share a bit about your project. This form opens your email client — or set NEXT_PUBLIC_FORM_ENDPOINT for Formspree/Getform."
+          }
         />
 
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
@@ -162,7 +179,9 @@ export function ContactSection() {
 
               {state === "success" ? (
                 <p className="text-sm text-primary">
-                  Message received. I&apos;ll get back soon.
+                  {formEndpoint
+                    ? "Message received. I'll get back soon."
+                    : "Opening your email client..."}
                 </p>
               ) : null}
               {state === "error" ? (

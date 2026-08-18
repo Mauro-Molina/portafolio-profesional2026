@@ -1,10 +1,17 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const basePath = rawBasePath.replace(/\/$/, "");
+
 const nextConfig: NextConfig = {
+  output: "export",
+  trailingSlash: true,
+  basePath: basePath || undefined,
+  assetPrefix: basePath || undefined,
   outputFileTracingRoot: path.join(__dirname),
   images: {
-    formats: ["image/avif", "image/webp"],
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

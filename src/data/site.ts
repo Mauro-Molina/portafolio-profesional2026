@@ -1,4 +1,5 @@
 import type { NavItem, SiteConfig, SocialLink } from "@/types";
+import { withBasePath } from "@/lib/paths";
 
 export const siteConfig: SiteConfig = {
   name: "Mauro Molina",
@@ -7,10 +8,10 @@ export const siteConfig: SiteConfig = {
   email: "mauromolinamazon@gmail.com",
   phone: "+53 5 XXX XXXX",
   location: "Cuba",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://mauromolina.dev",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   github: "https://github.com/mauromolina",
   linkedin: "https://www.linkedin.com/in/mauromolina",
-  cvUrl: "/cv/Mauro-Molina-CV.pdf",
+  cvUrl: withBasePath("/cv/Mauro-Molina-CV.pdf"),
   description:
     "Full Stack Developer crafting premium web experiences with Laravel, React, Next.js, WordPress and modern AI tooling.",
 };
