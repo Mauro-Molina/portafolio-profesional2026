@@ -2,7 +2,7 @@
 
 Portfolio premium con Next.js 15, React 19, TypeScript, Tailwind CSS, Framer Motion y Lenis.
 
-Export estático listo para **GitLab Pages** con el dominio gratis de GitLab (`*.gitlab.io`). Las animaciones corren 100% en el cliente.
+Export estático listo para **GitHub Pages** con el dominio gratis (`*.github.io`). Las animaciones corren 100% en el cliente.
 
 ## Stack
 
@@ -42,64 +42,67 @@ npm run preview
 
 | Variable | Descripción |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | URL pública final (SEO / sitemap). En GitLab CI se calcula sola. |
-| `NEXT_PUBLIC_BASE_PATH` | Subruta si GitLab sirve el sitio en `/nombre-del-repo`. En CI se calcula sola. |
+| `NEXT_PUBLIC_SITE_URL` | URL pública final (SEO / sitemap). En GitHub Actions se calcula sola. |
+| `NEXT_PUBLIC_BASE_PATH` | Subruta `/nombre-del-repo` en project Pages. En Actions se calcula sola. |
 | `GITHUB_USERNAME` | Usuario de GitHub para repos/stats |
-| `GITHUB_TOKEN` | Token opcional (mejor rate limit en CI) |
+| `GITHUB_TOKEN` | Token opcional (mejor rate limit). En Actions se usa el token del workflow. |
 | `NEXT_PUBLIC_FORM_ENDPOINT` | Endpoint de Formspree/Getform (opcional) |
 
 Sin `NEXT_PUBLIC_FORM_ENDPOINT`, el formulario abre el cliente de correo (`mailto:`).
 
-## Publicar en GitLab Pages (dominio gratis)
+## Publicar en GitHub Pages (dominio gratis)
 
-El sitio queda en una URL `*.gitlab.io`. No hace falta dominio propio ni DNS.
+El repo ya está en GitHub:
 
-### 1. Crea el proyecto en GitLab
+`https://github.com/Mauro-Molina/portafolio-profesional2026`
 
-1. Entra en [gitlab.com](https://gitlab.com) e inicia sesión.
-2. **New project → Create blank project**.
-3. Nombre sugerido: `portafolio`.
-4. Visibility: **Public** (si es privado, el sitio no será visible para todo el mundo).
-5. **No** marques “Initialize repository with a README”.
+La URL pública será:
 
-### 2. Sube este repositorio
+`https://mauro-molina.github.io/portafolio-profesional2026/`
 
-En la raíz del proyecto (ajusta la URL al proyecto que acabas de crear):
+No hace falta dominio propio ni DNS.
+
+### 1. Commit y push
 
 ```bash
-git remote add gitlab https://gitlab.com/TU_USUARIO/portafolio.git
 git add .
-git commit -m "Publish static portfolio on GitLab Pages"
-git push -u gitlab HEAD
+git commit -m "Deploy static portfolio to GitHub Pages"
+git push origin master
 ```
 
-La rama actual es `master`. GitLab la tomará como rama por defecto si es el primer push.
+### 2. Activa GitHub Pages
 
-### 3. Variables CI (opcional)
+1. Abre el repo en GitHub.
+2. **Settings → Pages**.
+3. En **Source** elige **GitHub Actions**.
+4. El repo debe ser **Public** (en el plan gratis, Pages de un repo privado no queda visible para todo el mundo).
 
-En GitLab: **Settings → CI/CD → Variables**:
+### 3. Espera el workflow
 
-| Variable | Obligatorio | Ejemplo |
+1. Ve a la pestaña **Actions**.
+2. Abre **Deploy GitHub Pages**.
+3. Cuando `build` y `deploy` estén verdes, abre:
+
+`https://mauro-molina.github.io/portafolio-profesional2026/`
+
+La URL también aparece en **Settings → Pages**.
+
+### 4. Variables opcionales
+
+En **Settings → Secrets and variables → Actions** puedes añadir:
+
+| Secret | Obligatorio | Para qué |
 | --- | --- | --- |
-| `GITHUB_TOKEN` | No | Token de GitHub con scope `public_repo` (sube el rate limit) |
-| `NEXT_PUBLIC_FORM_ENDPOINT` | No | `https://formspree.io/f/xxxx` |
+| `NEXT_PUBLIC_FORM_ENDPOINT` | No | Formspree/Getform. Si no, el formulario usa `mailto:` |
 
-`GITHUB_USERNAME` ya vale `mauromolina` en el pipeline.
+`GITHUB_USERNAME` ya vale `mauromolina`. El workflow usa `GITHUB_TOKEN` automático para el rate limit de la API.
 
-### 4. Espera el pipeline
+### URL más corta (opcional)
 
-1. Ve a **Build → Pipelines**.
-2. El job `pages` instala, construye el export estático y publica.
-3. Cuando esté verde, ve a **Deploy → Pages**.
-4. Abre la URL que GitLab muestra (algo como `https://TU_USUARIO.gitlab.io/portafolio/` o un dominio único `https://portafolio-TU_USUARIO-xxxx.gitlab.io`).
+Si quieres `https://mauro-molina.github.io/` sin el nombre del repo:
 
-### 5. URL clásica `usuario.gitlab.io/repo` (opcional)
-
-GitLab a veces activa **Use unique domain**. Si prefieres `https://TU_USUARIO.gitlab.io/portafolio/`:
-
-1. **Deploy → Pages**
-2. Desactiva **Use unique domain**
-3. Vuelve a lanzar el pipeline (**Build → Pipelines → Run pipeline**)
+1. Renombra el repo a `Mauro-Molina.github.io` (**Settings → General → Repository name**).
+2. Vuelve a lanzar el workflow (**Actions → Deploy GitHub Pages → Run workflow**).
 
 El CI detecta solo si hace falta `basePath`.
 

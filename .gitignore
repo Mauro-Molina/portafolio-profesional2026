@@ -32,9 +32,8 @@ yarn-error.log*
 .env*.local
 .env
 
-# vercel / gitlab
+# vercel
 .vercel
-.gitlab-ci-local/
 
 # typescript
 *.tsbuildinfo
