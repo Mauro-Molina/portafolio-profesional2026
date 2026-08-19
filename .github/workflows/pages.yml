@@ -17,17 +17,21 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     env:
       NEXT_TELEMETRY_DISABLED: "1"
       GITHUB_USERNAME: mauromolina
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NEXT_PUBLIC_FORM_ENDPOINT: ${{ secrets.NEXT_PUBLIC_FORM_ENDPOINT }}
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Setup Pages
@@ -40,11 +44,17 @@ jobs:
         run: |
           SITE_URL="${{ steps.pages.outputs.base_url }}"
           SITE_URL="${SITE_URL%/}"
+
           BASE_PATH="${{ steps.pages.outputs.base_path }}"
           BASE_PATH="${BASE_PATH%/}"
-          if [ "$BASE_PATH" = "/" ]; then BASE_PATH=""; fi
+
+          if [ "$BASE_PATH" = "/" ]; then
+            BASE_PATH=""
+          fi
+
           echo "NEXT_PUBLIC_SITE_URL=$SITE_URL" >> "$GITHUB_ENV"
           echo "NEXT_PUBLIC_BASE_PATH=$BASE_PATH" >> "$GITHUB_ENV"
+
           echo "SITE_URL=$SITE_URL"
           echo "BASE_PATH=$BASE_PATH"
 
@@ -56,6 +66,7 @@ jobs:
 
           Sitemap: ${NEXT_PUBLIC_SITE_URL}/sitemap.xml
           EOF
+
           cat > public/sitemap.xml <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -67,22 +78,29 @@ jobs:
           </urlset>
           EOF
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Add .nojekyll
         run: touch out/.nojekyll
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: out
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
