@@ -96,6 +96,12 @@ export function ContactSection() {
                 {siteConfig.email}
               </a>
               <a
+                href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`}
+                className="block rounded-[14px] border border-white/8 bg-secondary px-4 py-3 text-white transition hover:border-primary/30"
+              >
+                {siteConfig.phone}
+              </a>
+              <a
                 href={siteConfig.linkedin}
                 target="_blank"
                 rel="noreferrer"

@@ -10,7 +10,7 @@ type MagneticButtonProps = {
   href?: string;
   onClick?: () => void;
   type?: "button" | "submit";
-  download?: boolean;
+  download?: boolean | string;
   target?: string;
   rel?: string;
   disabled?: boolean;

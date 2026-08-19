@@ -4,7 +4,7 @@ export const aboutIntro = {
   eyebrow: "About me",
   title: "I build products that feel effortless and perform under pressure.",
   paragraphs: [
-    "I'm Mauro Molina, a Full Stack Developer focused on shipping polished digital products — from high-converting WordPress experiences to scalable Laravel and React applications.",
+    "I'm Mauro Molina, a Full Stack Developer focused on shipping polished digital products — from high-converting WordPress experiences to scalable Laravel, React and Vue applications.",
     "I care about clean architecture, measurable performance, and interfaces that feel inevitable. Every project is an opportunity to turn business goals into software people enjoy using.",
     "Whether it's a SaaS platform, an e-commerce storefront, or an AI-assisted workflow, I design systems that are maintainable, fast, and ready to grow.",
   ],

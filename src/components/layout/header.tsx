@@ -89,7 +89,10 @@ export function Header() {
             className="hidden sm:inline-flex"
             aria-label="Download CV"
           >
-            <a href={siteConfig.cvUrl} download>
+            <a
+              href={siteConfig.cvUrl}
+              download="Curriculum-Profesional-Mauro-Molina.pdf"
+            >
               <Download className="h-4 w-4" />
             </a>
           </Button>

@@ -4,27 +4,21 @@ import { ProjectsSection } from "@/sections/projects";
 import { ExperienceSection } from "@/sections/experience";
 import { TechStackSection } from "@/sections/tech-stack";
 import { EducationSection } from "@/sections/education";
-import { GitHubSection } from "@/sections/github";
 import { FeaturedProductSection } from "@/sections/featured-product";
+import { FeaturedGameSection } from "@/sections/featured-game";
 import { ContactSection } from "@/sections/contact";
-import { getContributionStats, getLatestRepos } from "@/lib/github";
 
-export default async function HomePage() {
-  const [repos, stats] = await Promise.all([
-    getLatestRepos(6),
-    getContributionStats(),
-  ]);
-
+export default function HomePage() {
   return (
     <>
       <HeroSection />
       <AboutSection />
       <ProjectsSection />
+      <FeaturedProductSection />
+      <FeaturedGameSection />
       <ExperienceSection />
       <TechStackSection />
       <EducationSection />
-      <GitHubSection repos={repos} stats={stats} />
-      <FeaturedProductSection />
       <ContactSection />
     </>
   );

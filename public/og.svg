@@ -4,5 +4,5 @@
   <circle cx="180" cy="520" r="180" fill="#38d26b" fill-opacity="0.12"/>
   <text x="80" y="250" fill="#38d26b" font-family="Arial, sans-serif" font-size="28" letter-spacing="8">FULL STACK DEVELOPER</text>
   <text x="80" y="340" fill="#ffffff" font-family="Arial, sans-serif" font-size="84" font-weight="700">Mauro Molina</text>
-  <text x="80" y="410" fill="#a1a1aa" font-family="Arial, sans-serif" font-size="30">Premium web products · Laravel · React · WordPress · AI</text>
+  <text x="80" y="410" fill="#a1a1aa" font-family="Arial, sans-serif" font-size="30">Premium web products · Laravel · React · Vue · WordPress</text>
 </svg>

@@ -6,14 +6,16 @@ export const siteConfig: SiteConfig = {
   fullName: "Mauro Molina Mazon",
   title: "Full Stack Developer",
   email: "mauromolinamazon@gmail.com",
-  phone: "+53 5 XXX XXXX",
+  phone: "+53 55592113",
   location: "Cuba",
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  github: "https://github.com/mauromolina",
-  linkedin: "https://www.linkedin.com/in/mauromolina",
-  cvUrl: withBasePath("/cv/Mauro-Molina-CV.pdf"),
+  github: "https://github.com/Mauro-Molina",
+  linkedin: "https://www.linkedin.com/in/mauro-molina-mazon",
+  cvUrl: withBasePath(
+    `/cv/${encodeURIComponent("Curriculum Profesional Mauro Molina.pdf")}`,
+  ),
   description:
-    "Full Stack Developer crafting premium web experiences with Laravel, React, Next.js, WordPress and modern AI tooling.",
+    "Full Stack Developer crafting premium web experiences with Laravel, React, Vue, WordPress and modern AI tooling.",
 };
 
 export const navItems: NavItem[] = [
@@ -46,6 +48,7 @@ export const socialLinks: SocialLink[] = [
 export const typingRoles = [
   "Laravel Developer",
   "React Developer",
+  "Vue Developer",
   "WordPress Expert",
   "AI Developer",
   "SaaS Builder",
@@ -54,9 +57,9 @@ export const typingRoles = [
 export const heroBadges = [
   "Laravel",
   "React",
+  "Vue",
   "WordPress",
-  "Next.js",
   "PHP",
   "TypeScript",
-  "Node",
+  "MySQL",
 ] as const;

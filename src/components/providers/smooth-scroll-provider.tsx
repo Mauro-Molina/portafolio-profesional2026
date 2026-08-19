@@ -41,9 +41,18 @@ export function SmoothScrollProvider({
 
     document.addEventListener("click", onClick);
 
+    const onModal = (event: Event) => {
+      const open = Boolean((event as CustomEvent<{ open?: boolean }>).detail?.open);
+      if (open) lenis.stop();
+      else lenis.start();
+    };
+
+    window.addEventListener("portfolio:modal", onModal);
+
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener("click", onClick);
+      window.removeEventListener("portfolio:modal", onModal);
       lenis.destroy();
     };
   }, []);

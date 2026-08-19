@@ -20,8 +20,6 @@ jobs:
 
     env:
       NEXT_TELEMETRY_DISABLED: "1"
-      GITHUB_USERNAME: mauromolina
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NEXT_PUBLIC_FORM_ENDPOINT: ${{ secrets.NEXT_PUBLIC_FORM_ENDPOINT }}
 
     steps:

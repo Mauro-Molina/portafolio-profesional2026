@@ -10,7 +10,7 @@ export const experiences: Experience[] = [
     description:
       "Designing and shipping premium web products for international clients across e-commerce, SaaS, tourism, and brand platforms.",
     highlights: [
-      "Delivered production WordPress, Laravel, and React experiences for US and LATAM brands",
+      "Delivered production WordPress, Laravel, React and Vue experiences for US and LATAM brands",
       "Improved conversion and performance through UX refinement and technical optimization",
       "Owned end-to-end delivery: architecture, UI implementation, CMS, SEO, and deployment",
     ],
@@ -96,7 +96,7 @@ export const timeline: TimelineItem[] = [
     subtitle: "Full Stack Developer",
     period: "Now",
     description:
-      "Building premium digital products with Laravel, React, WordPress, and AI-powered tooling.",
+      "Building premium digital products with Laravel, React, Vue, WordPress, and AI-powered tooling.",
     current: true,
   },
 ];

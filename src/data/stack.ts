@@ -6,7 +6,7 @@ export const techStack: TechCategory[] = [
     name: "Frontend",
     items: [
       "React",
-      "Next.js",
+      "Vue",
       "TypeScript",
       "JavaScript",
       "Tailwind",
@@ -50,12 +50,30 @@ export const featuredProduct = {
   features: [
     "OpenAI support",
     "Gemini support",
-    "Grok support",
-    "Native WordPress.org workflow",
+    "Groq support",
+    "Rank Math & Yoast integration",
     "SEO-focused generation",
-    "Editor-ready output",
+    "Live on WordPress.org",
   ],
-  ctaLabel: "Explore Maurometa",
-  ctaHref: "#contact",
+  ctaLabel: "View on WordPress.org",
+  ctaHref: "https://wordpress.org/plugins/maurometa-seo-writer/",
   badge: "Featured Product",
+};
+
+export const featuredGame = {
+  name: "Captura al Pollo",
+  tagline: "Browser game built during my studies",
+  description:
+    "A playful web game I built while studying — an abstract take on everyday Cuban life: collect chickens, dodge shopkeepers, and reach 20 points to win.",
+  features: [
+    "Study-time personal project",
+    "Playable in the browser",
+    "Collect chickens to score",
+    "Dodge shopkeepers",
+    "Keyboard controls",
+    "Created by Mauro Molina Mazon",
+  ],
+  ctaLabel: "Play the game",
+  ctaHref: "https://mauro-molina.github.io/captura-el-pollo/",
+  badge: "Study Project",
 };

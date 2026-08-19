@@ -15,7 +15,7 @@ export const defaultMetadata: Metadata = {
     "Full Stack Developer",
     "Laravel",
     "React",
-    "Next.js",
+    "Vue",
     "WordPress",
     "TypeScript",
     "Mauro Molina",
@@ -57,6 +57,11 @@ export const defaultMetadata: Metadata = {
   },
   alternates: {
     canonical: `${siteUrl}/`,
+  },
+  icons: {
+    icon: [{ url: `${siteUrl}/favicon.svg`, type: "image/svg+xml" }],
+    shortcut: `${siteUrl}/favicon.svg`,
+    apple: `${siteUrl}/favicon.svg`,
   },
 };
 

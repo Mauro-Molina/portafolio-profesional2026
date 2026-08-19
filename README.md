@@ -11,7 +11,6 @@ Export estático listo para **GitHub Pages** con el dominio gratis (`*.github.io
 - Tailwind CSS 4
 - Framer Motion + Lenis
 - Lucide + React Icons
-- GitHub API en **build time**
 - Contacto estático (`mailto:` o Formspree/Getform)
 
 ## Desarrollo
@@ -44,8 +43,6 @@ npm run preview
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | URL pública final (SEO / sitemap). En GitHub Actions se calcula sola. |
 | `NEXT_PUBLIC_BASE_PATH` | Subruta `/nombre-del-repo` en project Pages. En Actions se calcula sola. |
-| `GITHUB_USERNAME` | Usuario de GitHub para repos/stats |
-| `GITHUB_TOKEN` | Token opcional (mejor rate limit). En Actions se usa el token del workflow. |
 | `NEXT_PUBLIC_FORM_ENDPOINT` | Endpoint de Formspree/Getform (opcional) |
 
 Sin `NEXT_PUBLIC_FORM_ENDPOINT`, el formulario abre el cliente de correo (`mailto:`).
@@ -95,8 +92,6 @@ En **Settings → Secrets and variables → Actions** puedes añadir:
 | --- | --- | --- |
 | `NEXT_PUBLIC_FORM_ENDPOINT` | No | Formspree/Getform. Si no, el formulario usa `mailto:` |
 
-`GITHUB_USERNAME` ya vale `mauromolina`. El workflow usa `GITHUB_TOKEN` automático para el rate limit de la API.
-
 ### URL más corta (opcional)
 
 Si quieres `https://mauro-molina.github.io/` sin el nombre del repo:
@@ -110,7 +105,7 @@ El CI detecta solo si hace falta `basePath`.
 
 - `public/images/profile.svg` → tu foto
 - `public/projects/*.svg` → screenshots reales
-- `public/cv/Mauro-Molina-CV.pdf` → tu CV
+- `public/cv/Curriculum Profesional Mauro Molina.pdf` → tu CV
 - `public/og.svg` → imagen Open Graph
 - Datos en `src/data/site.ts`
 
@@ -122,7 +117,7 @@ src/
   components/    # UI, layout, effects, providers
   sections/      # Secciones de la página
   hooks/         # Magnetic, mouse, media, scroll
-  lib/           # utils, github, seo, i18n, paths
+  lib/           # utils, seo, i18n, paths
   data/          # Contenido CMS-ready
   types/         # TypeScript types
 out/             # Salida estática tras `npm run build`
