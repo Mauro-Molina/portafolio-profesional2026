@@ -150,7 +150,7 @@ export function HeroSection() {
           <div className="relative z-10 overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-2">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-secondary">
               <Image
-                src={withBasePath("/images/profile.svg")}
+                src={withBasePath("/images/mauro-molina.png")}
                 alt={`${siteConfig.fullName} portrait`}
                 fill
                 priority
