@@ -140,7 +140,7 @@ function ProjectsArchive({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[70] flex items-center justify-center px-4 py-6 sm:px-8"
+      className="fixed inset-0 z-[70] flex items-center justify-center px-3 py-3 sm:px-8 sm:py-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -160,29 +160,32 @@ function ProjectsArchive({
         role="dialog"
         aria-modal="true"
         aria-labelledby="projects-archive-title"
-        className="relative z-10 flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-primary/20 bg-gradient-to-br from-[#0d1a12] via-card to-[#050505] shadow-[0_0_80px_rgba(56,210,107,0.18)]"
-        initial={{ opacity: 0, scale: 0.72, y: 64 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 32 }}
-        transition={{ type: "spring", stiffness: 260, damping: 22, mass: 0.85 }}
+        data-lenis-prevent
+        data-lenis-prevent-touch
+        data-lenis-prevent-wheel
+        className="relative z-10 flex h-[min(92dvh,100%)] min-h-0 w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-primary/20 bg-gradient-to-br from-[#0d1a12] via-card to-[#050505] shadow-[0_0_80px_rgba(56,210,107,0.18)]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.22 }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
+        onTouchStart={() => setPaused(true)}
       >
         <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-primary/20 blur-[90px]" />
-        <div className="pointer-events-none absolute -bottom-20 left-10 h-48 w-48 rounded-full bg-emerald-400/10 blur-[80px]" />
 
-        <div className="relative flex items-center justify-between gap-4 border-b border-white/8 px-5 py-4 md:px-8">
+        <div className="relative z-10 flex shrink-0 items-center justify-between gap-3 border-b border-white/8 px-4 py-3 md:px-8 md:py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-primary md:text-xs">
               Archive
             </p>
             <h3
               id="projects-archive-title"
-              className="mt-1 font-heading text-xl text-white md:text-2xl"
+              className="mt-0.5 font-heading text-lg text-white md:mt-1 md:text-2xl"
             >
               All projects
             </h3>
-            <p className="mt-1 text-sm text-muted">
+            <p className="text-sm text-muted">
               {index + 1} / {archiveProjects.length}
             </p>
           </div>
@@ -206,7 +209,7 @@ function ProjectsArchive({
           </div>
         </div>
 
-        <div className="relative h-1 overflow-hidden bg-white/5">
+        <div className="relative h-1 shrink-0 overflow-hidden bg-white/5">
           <motion.div
             key={`${index}-${paused}`}
             className="h-full origin-left bg-primary"
@@ -220,81 +223,88 @@ function ProjectsArchive({
           />
         </div>
 
-        <div className="relative min-h-0 flex-1 overflow-hidden">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.article
-              key={project.id}
-              custom={direction}
-              initial={{ opacity: 0, x: direction * 80 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction * -80 }}
-              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-              className="grid h-full gap-0 lg:grid-cols-[1.05fr_0.95fr]"
-            >
-              <div className="relative min-h-[220px] aspect-[16/10] lg:aspect-auto lg:min-h-[420px]">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} preview`}
-                  fill
-                  unoptimized
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent lg:bg-gradient-to-r" />
-              </div>
+        <div className="relative min-h-0 flex-1">
+          <div
+            data-lenis-prevent
+            data-lenis-prevent-touch
+            className="absolute inset-0 overflow-y-scroll overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
+            onWheel={(event) => event.stopPropagation()}
+            onTouchMove={(event) => event.stopPropagation()}
+          >
+            <AnimatePresence mode="wait">
+              <motion.article
+                key={project.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22 }}
+                className="grid gap-0 lg:min-h-full lg:grid-cols-[1.05fr_0.95fr]"
+              >
+                <div className="relative aspect-[16/10] max-h-[26vh] min-h-[120px] lg:aspect-auto lg:max-h-none lg:min-h-[420px]">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent lg:bg-gradient-to-r" />
+                </div>
 
-              <div className="flex flex-col justify-center overflow-y-auto p-5 md:p-8 lg:p-10">
-                <div className="mb-4 flex flex-wrap items-center gap-3">
-                  <Badge>{project.category}</Badge>
-                  <span className="text-sm text-muted">{project.year}</span>
-                </div>
-                <h4 className="font-heading text-3xl font-semibold text-white md:text-4xl">
-                  {project.title}
-                </h4>
-                <p className="mt-4 text-base leading-relaxed text-muted md:text-lg">
-                  {project.longDescription}
-                </p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {project.tech.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <MagneticButton
-                    href={project.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="bg-primary text-primary-foreground hover:bg-[#2fbf5e]"
-                  >
-                    Visit Website
-                    <ArrowUpRight className="h-4 w-4" />
-                  </MagneticButton>
-                  {project.github ? (
+                <div className="flex flex-col p-5 pb-10 md:p-8 lg:justify-center lg:p-10">
+                  <div className="mb-3 flex flex-wrap items-center gap-3">
+                    <Badge>{project.category}</Badge>
+                    <span className="text-sm text-muted">{project.year}</span>
+                  </div>
+                  <h4 className="font-heading text-2xl font-semibold text-white md:text-4xl">
+                    {project.title}
+                  </h4>
+                  <div className="mt-5 flex flex-wrap gap-3">
                     <MagneticButton
-                      href={project.github}
+                      href={project.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="border border-white/15 bg-secondary text-white hover:border-white/30"
+                      className="bg-primary text-primary-foreground hover:bg-[#2fbf5e]"
                     >
-                      <FaGithub className="h-4 w-4" />
-                      GitHub
+                      Visit Website
+                      <ArrowUpRight className="h-4 w-4" />
                     </MagneticButton>
-                  ) : null}
+                    {project.github ? (
+                      <MagneticButton
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="border border-white/15 bg-secondary text-white hover:border-white/30"
+                      >
+                        <FaGithub className="h-4 w-4" />
+                        GitHub
+                      </MagneticButton>
+                    ) : null}
+                  </div>
+                  <p className="mt-5 text-base leading-relaxed text-muted md:text-lg">
+                    {project.longDescription}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {project.tech.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.article>
-          </AnimatePresence>
+              </motion.article>
+            </AnimatePresence>
+          </div>
 
           <button
             type="button"
             aria-label="Previous project"
             onClick={() => goTo(index - 1, -1)}
-            className="absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#111111]/80 text-white backdrop-blur-xl transition hover:border-primary/40 hover:text-primary lg:left-4"
+            className="absolute left-3 top-[18%] z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#111111]/80 text-white backdrop-blur-xl transition hover:border-primary/40 hover:text-primary lg:left-4 lg:top-1/2"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -302,13 +312,13 @@ function ProjectsArchive({
             type="button"
             aria-label="Next project"
             onClick={() => goTo(index + 1, 1)}
-            className="absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#111111]/80 text-white backdrop-blur-xl transition hover:border-primary/40 hover:text-primary lg:right-4"
+            className="absolute right-3 top-[18%] z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#111111]/80 text-white backdrop-blur-xl transition hover:border-primary/40 hover:text-primary lg:right-4 lg:top-1/2"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="relative flex gap-1.5 overflow-x-auto border-t border-white/8 px-5 py-4 md:px-8">
+        <div className="relative z-10 flex shrink-0 gap-1.5 overflow-x-auto border-t border-white/8 px-4 py-3 md:px-8 md:py-4">
           {archiveProjects.map((item, itemIndex) => (
             <button
               key={item.id}

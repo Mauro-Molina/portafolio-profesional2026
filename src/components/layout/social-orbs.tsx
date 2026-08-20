@@ -53,13 +53,24 @@ export function SocialOrbs() {
     const el = anchorRef.current;
     if (!el) return;
 
+    const desktop = window.matchMedia("(min-width: 768px)");
+
     const observer = new IntersectionObserver(
-      ([entry]) => setFloating(!entry.isIntersecting),
+      ([entry]) => setFloating(desktop.matches && !entry.isIntersecting),
       { threshold: 0.2, rootMargin: "-96px 0px 0px 0px" },
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+
+    const onViewport = () => {
+      if (!desktop.matches) setFloating(false);
+    };
+    desktop.addEventListener("change", onViewport);
+
+    return () => {
+      observer.disconnect();
+      desktop.removeEventListener("change", onViewport);
+    };
   }, []);
 
   return (
@@ -87,7 +98,7 @@ export function SocialOrbs() {
         ? createPortal(
             <motion.aside
               aria-label="Social links"
-              className="pointer-events-none fixed right-3 top-1/2 z-40 -translate-y-1/2 sm:right-5"
+              className="pointer-events-none fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 md:flex"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
