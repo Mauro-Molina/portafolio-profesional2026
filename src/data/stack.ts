@@ -60,6 +60,24 @@ export const featuredProduct = {
   badge: "Featured Product",
 };
 
+export const featuredCf7Plugin = {
+  name: "Smart Tools for Contact Form 7",
+  tagline: "Save, manage, and style Contact Form 7 forms",
+  description:
+    "A WordPress plugin that stores Contact Form 7 submissions in a dedicated database table so you can review entries even when an email is missed — plus a Form Styler inside the CF7 editor to customize layouts without rewriting the template.",
+  features: [
+    "Submissions inbox in WordPress",
+    "Dedicated database table",
+    "Search, filters, and CSV export",
+    "Form Styler with live preview",
+    "One- and two-column layouts",
+    "Live on WordPress.org",
+  ],
+  ctaLabel: "View on WordPress.org",
+  ctaHref: "https://wordpress.org/plugins/smart-tools-for-contact-form-7/",
+  badge: "WordPress Plugin",
+};
+
 export const featuredGame = {
   name: "Captura al Pollo",
   tagline: "Browser game built during my studies",

@@ -5,6 +5,7 @@ import { ExperienceSection } from "@/sections/experience";
 import { TechStackSection } from "@/sections/tech-stack";
 import { EducationSection } from "@/sections/education";
 import { FeaturedProductSection } from "@/sections/featured-product";
+import { FeaturedCf7Section } from "@/sections/featured-cf7";
 import { FeaturedGameSection } from "@/sections/featured-game";
 import { ContactSection } from "@/sections/contact";
 
@@ -15,6 +16,7 @@ export default function HomePage() {
       <AboutSection />
       <ProjectsSection />
       <FeaturedProductSection />
+      <FeaturedCf7Section />
       <FeaturedGameSection />
       <ExperienceSection />
       <TechStackSection />
