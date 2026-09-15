@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-import { featuredProjects, projects } from "@/data/projects";
+import { projects } from "@/data/projects";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { MagneticButton } from "@/components/shared/magnetic-button";
@@ -21,8 +21,23 @@ import type { Project } from "@/types";
 
 const AUTO_MS = 6500;
 
+function shuffleProjects(items: Project[]) {
+  const next = [...items];
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [next[i], next[j]] = [next[j], next[i]];
+  }
+  return next;
+}
+
 export function ProjectsSection() {
   const [archiveOpen, setArchiveOpen] = useState(false);
+  const [homeProjects, setHomeProjects] = useState<Project[]>([]);
+  const [archiveProjects, setArchiveProjects] = useState(projects);
+
+  useEffect(() => {
+    setHomeProjects(shuffleProjects(projects).slice(0, 4));
+  }, []);
 
   useEffect(() => {
     window.dispatchEvent(
@@ -48,11 +63,11 @@ export function ProjectsSection() {
         <SectionHeading
           eyebrow="Selected Work"
           title="Projects that feel premium"
-          description="Four flagship builds. The rest of the catalog lives in the archive."
+          description="A rotating selection from the catalog. The rest lives in the archive."
         />
 
-        <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-          {featuredProjects.map((project, index) => (
+        <div className="grid min-h-[32rem] gap-6 md:grid-cols-2 md:gap-8">
+          {homeProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
@@ -73,7 +88,10 @@ export function ProjectsSection() {
             <span className="pointer-events-none absolute -inset-3 rounded-[32px] border border-primary/30 animate-cta-ring [animation-delay:0.7s]" />
 
             <MagneticButton
-              onClick={() => setArchiveOpen(true)}
+              onClick={() => {
+                setArchiveProjects(shuffleProjects(projects));
+                setArchiveOpen(true);
+              }}
               className="relative z-10 overflow-hidden bg-primary px-10 py-5 text-base font-semibold text-primary-foreground shadow-[0_0_50px_rgba(56,210,107,0.5)] hover:bg-[#2fbf5e] md:px-12 md:py-6 md:text-lg"
             >
               <span className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -91,7 +109,7 @@ export function ProjectsSection() {
         {archiveOpen ? (
           <ProjectsArchive
             onClose={() => setArchiveOpen(false)}
-            projects={projects}
+            projects={archiveProjects}
           />
         ) : null}
       </AnimatePresence>

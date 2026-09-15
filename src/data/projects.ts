@@ -297,20 +297,135 @@ const projectList: Project[] = [
     year: "2022",
     category: "Catalog",
   },
+  {
+    id: "alter-design",
+    title: "Alter Design",
+    description:
+      "WordPress site for an interior designer — made-to-measure furniture and spatial storytelling.",
+    longDescription:
+      "I designed and developed the full WordPress site with Gutenberg for Alter Design Group, an interior designer’s brand: custom furniture collections, services, and a visual catalog built to present spaces as finished pieces.",
+    url: "https://alterdesigngroup.com/",
+    image: "/projects/alter-design.svg",
+    tech: ["WordPress", "Gutenberg", "PHP", "CSS"],
+    featured: true,
+    year: "2026",
+    category: "Interior Design",
+  },
+  {
+    id: "chalet-mille-isles",
+    title: "Chalet Mille-Isles",
+    description:
+      "WordPress site for a Laurentides chalet with an external booking system.",
+    longDescription:
+      "A WordPress build with a custom theme from scratch for Chalet Mille-Isles. The public site covers the property, gallery, amenities and contact; reservations run on an external booking system wired into the experience.",
+    url: "https://chaletmilleisles.com/en/home/",
+    image: "/projects/chalet-mille-isles.svg",
+    tech: ["WordPress", "Custom Theme", "PHP", "CSS"],
+    featured: true,
+    year: "2024",
+    category: "Hospitality",
+  },
+  {
+    id: "e-nova",
+    title: "e-nova",
+    description:
+      "WordPress catalog for electric bikes and scooters — designed and developed by me.",
+    longDescription:
+      "A WordPress catalog I designed and programmed for e-nova, presenting electric bikes, scooters, cargo vehicles and accessories with a clear product structure and a sustainability-focused brand story.",
+    url: "https://e-nova.ca/",
+    image: "/projects/e-nova.svg",
+    tech: ["WordPress", "PHP", "CSS", "JavaScript"],
+    featured: true,
+    year: "2024",
+    category: "Catalog",
+  },
+  {
+    id: "dr-martinez",
+    title: "Dr. Martínez",
+    description:
+      "Hair-transplant site for a Spanish doctor — custom WordPress theme with Bootstrap.",
+    longDescription:
+      "I designed and programmed a custom WordPress theme from scratch with Bootstrap for Dr. Manuel Martínez, a hair-transplant specialist in Madrid: services, results, testimonials, and conversion-focused booking flows.",
+    url: "https://drmartinez.es/",
+    image: "/projects/dr-martinez.svg",
+    tech: ["WordPress", "Bootstrap", "Custom Theme", "PHP"],
+    featured: true,
+    year: "2026",
+    category: "Healthcare",
+  },
+  {
+    id: "hotel-le-rivage",
+    title: "Hôtel Le Rivage",
+    description:
+      "WordPress site built from scratch with Gutenberg from a design the client provided.",
+    longDescription:
+      "A Gutenberg WordPress build from scratch for Hôtel Le Rivage in Rosemère. The client supplied a reference design from another site; I implemented rooms, SPA, corporate pages and booking-oriented content in WordPress.",
+    url: "https://hotellerivage.com/en/home/",
+    image: "/projects/hotel-le-rivage.svg",
+    tech: ["WordPress", "Gutenberg", "PHP", "CSS"],
+    featured: true,
+    year: "2026",
+    category: "Hospitality",
+  },
+  {
+    id: "inder",
+    title: "INDER",
+    description:
+      "News site for Cuba’s national sports institute — designed and built from scratch.",
+    longDescription:
+      "I designed and programmed the WordPress news site for INDER (Instituto Nacional de Deportes, Educación Física y Recreación) from scratch on an Astra child theme: institutional content, sports news, and a large editorial structure.",
+    url: "https://www.inder.gob.cu/",
+    image: "/projects/inder.svg",
+    tech: ["WordPress", "Astra", "Child Theme", "PHP"],
+    featured: true,
+    year: "2026",
+    category: "News / Institutional",
+  },
+  {
+    id: "lussicam",
+    title: "Lussicam Évaluation",
+    description:
+      "Internal WordPress + ACF system for a Canadian firm’s truck and trailer technical sheets.",
+    longDescription:
+      "A large WordPress platform using Advanced Custom Fields to manage internal truck and trailer files for a Canadian company. The site is heavy by design: hundreds of technical sheets, internal records, and structured ACF data.",
+    url: "https://lussicamevaluation.com/",
+    image: "/projects/lussicam.svg",
+    tech: ["WordPress", "ACF", "PHP", "MySQL"],
+    featured: true,
+    year: "2024",
+    category: "Internal / CMS",
+  },
+  {
+    id: "spa-le-finlandais",
+    title: "Spa Le Finlandais",
+    description:
+      "Spa site with a custom gift-card plugin connected to QR codes and WooCommerce.",
+    longDescription:
+      "WordPress and WooCommerce for Spa Le Finlandais. I built a client-specific gift-card plugin that issues QR-backed cards and connects to WooCommerce after payment, so vouchers can be redeemed in the spa flow.",
+    url: "https://spalefinlandais.com/",
+    image: "/projects/spa-le-finlandais.svg",
+    tech: ["WordPress", "WooCommerce", "Custom Plugin", "PHP"],
+    featured: true,
+    year: "2026",
+    category: "Hospitality / Plugin",
+  },
+  {
+    id: "surus",
+    title: "Surus",
+    description:
+      "Astra child-theme site for a software company — loader animation and video edit by me.",
+    longDescription:
+      "A from-scratch WordPress build on an Astra child theme for Surus, a software company. I created the loader animation and edited the video shown in the single-section homepage, with the rest of the site programmed from the ground up.",
+    url: "http://surus.net/",
+    image: "/projects/surus.svg",
+    tech: ["WordPress", "Astra", "Child Theme", "JavaScript"],
+    featured: true,
+    year: "2026",
+    category: "Corporate",
+  },
 ];
 
 export const projects: Project[] = projectList.map((project) => ({
   ...project,
   image: withBasePath(project.image),
 }));
-
-export const featuredProjectIds = [
-  "kavana-multitienda",
-  "ingenius-software",
-  "tiodomin",
-  "filexbiz",
-] as const;
-
-export const featuredProjects: Project[] = featuredProjectIds
-  .map((id) => projects.find((project) => project.id === id))
-  .filter((project): project is Project => Boolean(project));
